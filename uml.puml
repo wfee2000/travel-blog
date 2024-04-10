@@ -1,0 +1,50 @@
+@startuml
+
+class BlogEntries {
+- Id: Integer
+--
+
+# EntryId: Integer
+# author: String
+
++ title: String
++ description: String
++ creationDate: Date
++ editDates: Date[]
++ impressionCount:
++ content: String
++ commentsAllowed: Boolean
+}
+
+class BlogUsers {
+- Name: String
+--
+
++ Username: String
++ Email: String
++ Password: String
+}
+
+class BlogComments {
+- Id: Integer
+--
+
+# EntryId: Integer
+# author: String
+
++ content: String
+}
+
+class BlogCategories {
+- Id: Integer
+--
+
++ Name: String
+}
+
+BlogUsers -right- BlogEntries
+BlogCategories -left- BlogEntries
+BlogComments -up- BlogEntries
+
+BlogUsers -- BlogComments
+@enduml
