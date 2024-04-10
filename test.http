@@ -1,0 +1,12 @@
+POST http://localhost:3333/post
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "content",
+  "price": 100
+}
+
+###
+
+GET http://localhost:3333/hello
