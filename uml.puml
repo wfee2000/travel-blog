@@ -11,7 +11,7 @@ class BlogEntries {
 + CreationDate: Date
 + EditDates: Date[]
 + ImpressionCount: Integer
-+ Content: String
++ Content: Array[]
 + CommentsAllowed: Boolean
 + BlogCategory: String
 }
