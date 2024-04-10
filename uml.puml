@@ -4,23 +4,23 @@ class BlogEntries {
 - Id: Integer
 --
 
-# EntryId: Integer
-# author: String
+# Author: String
 
-+ title: String
-+ description: String
-+ creationDate: Date
-+ editDates: Date[]
-+ impressionCount:
-+ content: String
-+ commentsAllowed: Boolean
++ Title: String
++ Description: String
++ CreationDate: Date
++ EditDates: Date[]
++ ImpressionCount: Integer
++ Content: String
++ CommentsAllowed: Boolean
++ BlogCategory: String
 }
 
 class BlogUsers {
-- Name: String
+- Username: String
 --
 
-+ Username: String
++ Name: String
 + Email: String
 + Password: String
 }
@@ -35,15 +35,8 @@ class BlogComments {
 + content: String
 }
 
-class BlogCategories {
-- Id: Integer
---
-
-+ Name: String
-}
 
 BlogUsers -right- BlogEntries
-BlogCategories -left- BlogEntries
 BlogComments -up- BlogEntries
 
 BlogUsers -- BlogComments

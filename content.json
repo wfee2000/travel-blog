@@ -1,0 +1,18 @@
+[
+  {
+    "type": "description",
+    "base64": "descriptionAsBase64String"
+  },
+  {
+    "type": "link",
+    "base64": "linkAsBase64String"
+  },
+  {
+  "type": "text",
+  "base64": "textAsBase64String"
+  },
+  {
+    "type": "image",
+    "base64": "imageAsBase64String"
+  }
+]
