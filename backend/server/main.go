@@ -1,6 +1,7 @@
 package main
 
 import (
+	"db-queries/controller"
 	"db-queries/entities"
 	"errors"
 	"fmt"
@@ -12,17 +13,18 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.GET("/hello", getHello)
+	router.GET("/getAllUsers", getUsers)
 	router.POST("/post", postHello)
 
-	err := router.Run(":3333")
+	errServer := router.Run(":3333")
 
-	if errors.Is(err, http.ErrServerClosed) {
+	if errors.Is(errServer, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
-	} else if err != nil {
-		fmt.Printf("error starting server: %s\n", err)
+	} else if errServer != nil {
+		fmt.Printf("error starting server: %s\n", errServer)
 		os.Exit(1)
 	}
+
 }
 
 func postHello(context *gin.Context) {
@@ -36,7 +38,11 @@ func postHello(context *gin.Context) {
 
 	context.IndentedJSON(http.StatusCreated, item)
 }
-func getHello(context *gin.Context) {
-	fmt.Printf("got /hello request\n")
-	context.String(http.StatusOK, "Hello, HTTP!\n")
+
+func getUsers(context *gin.Context) {
+	controller.InitDbConnection()
+
+	users := controller.GetAllUsers()
+
+	context.IndentedJSON(http.StatusCreated, users)
 }
