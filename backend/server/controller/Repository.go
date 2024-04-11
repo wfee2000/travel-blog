@@ -22,22 +22,6 @@ func InitDbConnection() {
 	var opts = options.Client().ApplyURI(dbConnectionString).SetServerAPIOptions(serverAPI)
 
 	client, _ = mongo.Connect(context.TODO(), opts)
-
-	userCollection := client.Database("test").Collection("users")
-
-	// insert TestData
-
-	user1 := entities.BlogUser{Name: "Luka", Username: "Luka_Civic_01", Password: "123456789", Email: "luka@gmail.com"}
-	user2 := entities.BlogUser{Name: "Tobi", Username: "Aichingert", Password: "12345678", Email: "tobi@gmail.com"}
-
-	_, err1 := userCollection.InsertOne(context.Background(), user1)
-	_, err2 := userCollection.InsertOne(context.Background(), user2)
-
-	if err1 != nil || err2 != nil {
-		panic(err1)
-		panic(err2)
-		return
-	}
 }
 
 func GetAllUsers() []entities.BlogUser {
@@ -53,7 +37,7 @@ func GetAllUsers() []entities.BlogUser {
 		return nil
 	}
 
-	//defer cursor.Close(context.Background())
+	defer cursor.Close(context.Background())
 
 	for cursor.Next(context.Background()) {
 		var user entities.BlogUser
@@ -68,4 +52,16 @@ func GetAllUsers() []entities.BlogUser {
 	}
 
 	return users
+}
+
+func InsertUser(user entities.BlogUser) entities.BlogUser {
+	userCollection := client.Database("test").Collection("users")
+
+	_, err := userCollection.InsertOne(context.Background(), user)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return user
 }
