@@ -1,12 +1,13 @@
-POST http://localhost:3333/post
+POST http://localhost:3333/createUser
 Content-Type: application/json
 
 {
-  "id": 2,
+  "username": "luka",
+  "password": "123",
   "name": "content",
-  "price": 100
+  "email": "luka@gmail"
 }
 
 ###
 
-GET http://localhost:3333/hello
+GET http://localhost:3333/getAllUsers
