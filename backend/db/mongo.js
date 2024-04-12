@@ -2,35 +2,30 @@ use travelBlog
 
 db.users.insert([
     {
-        _id: ObjectId('6616be17f4e93ed6f9a025a5'),
         name: "Alice Johnson",
         username: "traveler123",
         email: "alice.johnson@example.com",
         password: "securepassword123"
     },
     {
-        _id: ObjectId('6616be17f4e93ed6f9a025a6'),
         name: "Bob Smith",
         username: "commenter456",
         email: "bob.smith@example.com",
         password: "password456"
     },
     {
-        _id: ObjectId('6616be17f4e93ed6f9a025a7'),
         name: "Charlie Brown",
         username: "charliebrown1",
         email: "charlie.brown@example.com",
         password: "brownie123"
     },
     {
-        _id: ObjectId('6616be17f4e93ed6f9a025a8'),
         name: "David Lee",
         username: "davidlee007",
         email: "david.lee@example.com",
         password: "secretagent"
     },
     {
-        _id: ObjectId('6616be17f4e93ed6f9a025a9'),
         name: "Eve Wilson",
         username: "wanderlust_eve",
         email: "eve.wilson@example.com",
@@ -56,10 +51,10 @@ db.entries.insert([
         ],
         commentsAllowed: true,
         blogCategory: "Adventure",
-        author_id: ObjectId('6616be17f4e93ed6f9a025a5'),
+        author_un: "traveler123",
         comments: [
             {
-                commenter_id: ObjectId('6616be17f4e93ed6f9a025a6'),
+                commenter_un: "commenter456",
                 content: "Absolutely agree with you, Alice! Traveling opens up a whole new world of experiences and perspectives."
             }
         ]
@@ -81,14 +76,14 @@ db.entries.insert([
         ],
         commentsAllowed: true,
         blogCategory: "Exploration",
-        author_id: ObjectId('6616be17f4e93ed6f9a025a6'),
+        author_un: "commenter456",
         comments: [
             {
-                commenter_id: ObjectId('6616be17f4e93ed6f9a025a8'),
+                commenter_un: "davidlee007",
                 content: "I love venturing into lesser-known destinations. It's where you often find the most unforgettable experiences."
             },
             {
-                commenter_id: ObjectId('6616be17f4e93ed6f9a025a9'),
+                commenter_un: "wanderlust_eve",
                 content: "Exploring the unknown ignites a sense of curiosity and wonder. It's like stepping into a story waiting to unfold."
             }
         ]
@@ -110,10 +105,10 @@ db.entries.insert([
         ],
         commentsAllowed: true,
         blogCategory: "Culinary",
-        author_id: ObjectId('6616be17f4e93ed6f9a025a7'),
+        author_un: "charliebrown1",
         comments: [
             {
-                commenter_id: ObjectId('6616be17f4e93ed6f9a025a5'),
+                commenter_un: "traveler123",
                 content: "Sampling local cuisines is one of the highlights of traveling for me. It's like taking a culinary tour of the world."
             }
         ]
@@ -135,7 +130,7 @@ db.entries.insert([
         ],
         commentsAllowed: true,
         blogCategory: "Inspiration",
-        author_id: ObjectId('6616be17f4e93ed6f9a025a9'),
+        author_un: "wanderlust_eve",
         comments: []
     },
     {
@@ -155,13 +150,13 @@ db.entries.insert([
         ],
         commentsAllowed: false,
         blogCategory: "Narratives",
-        author_id: ObjectId('6616be17f4e93ed6f9a025a8'),
+        author_un: "davidlee007",
         comments: []
     }
 ])
 
 db.users.find({ $where: "this.username == this.password"})
-db.entries.find({ author_id: db.users.findOne({username: "traveler123"})._id})
+db.entries.find({ author_un: db.users.findOne({username: "traveler123"}).username})
 db.entries.find({contents: {$elemMatch: { type : {$ne: "coordinates"}}}})
 db.entries.aggregate([
     {
@@ -189,8 +184,8 @@ db.entries.aggregate([
     {
         $lookup: {
             from: "users",
-            localField: "author_id",
-            foreignField: "_id",
+            localField: "author_un",
+            foreignField: "username",
             as: "author"
         }
     },
