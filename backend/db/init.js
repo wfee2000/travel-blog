@@ -1,5 +1,6 @@
 use travelBlog
 db.users.createIndex({ "username": 1 }, { unique: true })
+db.entries.createIndex({ "title": 1 }, { unique: true })
 
 db.users.insert([
     {
