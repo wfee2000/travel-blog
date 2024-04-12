@@ -46,3 +46,54 @@ db.entries.aggregate([
         }
     }
 ])
+db.entries.aggregate([
+    {
+        $addFields: {
+            titleInContents: {
+                $gt: [
+                    {
+                        $size: {
+                            $filter: {
+                                input: "$contents",
+                                cond: { $regexMatch: { input: "$$this.content", regex: "$title"} }
+                            }
+                        }
+                    },
+                    0
+                ]
+            }
+        }
+    },
+    { $match: { titleInContents: true } }
+])
+db.users.find().sort({username: 1})
+db.entries.find().sort({creationDate: -1}).limit(2)
+db.entries.find().sort({creationDate: 1}).skip(1).limit(1)
+db.entries.find({
+    $and: [
+        {creationDate: { $gt: ISODate("2024-03-31")}},
+        {contents: {$elemMatch: {type: "link"}}}
+    ]
+})
+db.entries.aggregate([
+    {
+        $match: { author_un: "davidlee007" }
+    },
+    {
+        $project: {
+            title: "$title",
+            comments: "$comments",
+            latestComments: {
+                $slice: [ "$comments.content", -2 ]
+            }
+        }
+    }
+])
+db.entries.aggregate([
+    {
+        $match: { author_un: "charliebrown1" }
+    },
+    {
+        $project: { comments: { $slice: ["$comments.content", -2] } }
+    }
+])
