@@ -1,8 +1,8 @@
-POST http://localhost:3333/createUser
+POST http://localhost:3333/api/createUser
 Content-Type: application/json
 
 {
-  "username": "luka",
+  "username": "luka2",
   "password": "123",
   "name": "content",
   "email": "luka@gmail"
@@ -10,4 +10,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3333/getAllUsers
+GET http://localhost:3333/api/getAllUsers

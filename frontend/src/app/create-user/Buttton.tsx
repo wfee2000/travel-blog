@@ -6,14 +6,12 @@ export default function uploadUser(e) {
     var formData = new FormData(e.target);
     const form_values = Object.fromEntries(formData);
 
-    console.log('form values', form_values.name)
-    console.log('form values', form_values.username)
-
-    fetch('http://localhost:3333/createUser', {
+    console.log('name: ', form_values.name)
+    fetch('http://localhost:3333/api/createUser', {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
             username: form_values.username,

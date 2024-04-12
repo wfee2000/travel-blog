@@ -5,16 +5,30 @@ import (
 	"db-queries/entities"
 	"errors"
 	"fmt"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
 	router := gin.Default()
 
-	router.GET("/getAllUsers", getUsers)
-	router.POST("/createUser", postUser)
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "https://lcoalhost:3000"
+		},
+		MaxAge: 12 * time.Hour,
+	}))
+
+	router.GET("/api/getAllUsers", getUsers)
+	router.POST("/api/createUser", postUser)
 
 	errServer := router.Run(":3333")
 
@@ -24,7 +38,6 @@ func main() {
 		fmt.Printf("error starting server: %s\n", errServer)
 		os.Exit(1)
 	}
-
 }
 
 func postUser(context *gin.Context) {
