@@ -30,6 +30,9 @@ func main() {
 	router.GET("/api/getAllUsers", getUsers)
 	router.POST("/api/createUser", postUser)
 
+	router.GET("/api/getAllEntries", getEntries)
+	router.POST("/api/createEntry", postEntry)
+
 	errServer := router.Run(":3333")
 
 	if errors.Is(errServer, http.ErrServerClosed) {
@@ -63,4 +66,26 @@ func getUsers(context *gin.Context) {
 	users := controller.GetAllUsers()
 
 	context.IndentedJSON(http.StatusCreated, users)
+}
+
+func postEntry(context *gin.Context) {
+	controller.InitDbConnection()
+
+	var entry entities.BlogEntry
+	err := context.BindJSON(&entry)
+
+	if err != nil {
+		context.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	context.IndentedJSON(http.StatusCreated, controller.InsertEntry(entry))
+}
+
+func getEntries(context *gin.Context) {
+	controller.InitDbConnection()
+
+	entries := controller.GetAllEntries()
+
+	context.IndentedJSON(http.StatusCreated, entries)
 }

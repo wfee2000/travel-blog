@@ -26,13 +26,12 @@ func InitDbConnection() {
 
 func GetAllUsers() []entities.BlogUser {
 
-	userCollection := client.Database("test").Collection("users")
+	userCollection := client.Database("travelBlog").Collection("users")
 
-	// Define an empty slice to store users
 	var users []entities.BlogUser
 
-	// Find all users in the collection
 	cursor, err := userCollection.Find(context.Background(), bson.M{})
+
 	if err != nil {
 		return nil
 	}
@@ -55,13 +54,45 @@ func GetAllUsers() []entities.BlogUser {
 }
 
 func InsertUser(user entities.BlogUser) entities.BlogUser {
-	userCollection := client.Database("test").Collection("users")
+	userCollection := client.Database("travelBlog").Collection("users")
 
-	_, err := userCollection.InsertOne(context.Background(), user)
-
-	if err != nil {
-		panic(err)
-	}
+	userCollection.InsertOne(context.Background(), user)
 
 	return user
+}
+
+func GetAllEntries() []entities.BlogEntry {
+
+	entryCollection := client.Database("travelBlog").Collection("entries")
+
+	var entries []entities.BlogEntry
+
+	cursor, err := entryCollection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return nil
+	}
+
+	defer cursor.Close(context.Background())
+
+	for cursor.Next(context.Background()) {
+		var entry entities.BlogEntry
+		if err := cursor.Decode(&entry); err != nil {
+			return nil
+		}
+		entries = append(entries, entry)
+	}
+
+	if err := cursor.Err(); err != nil {
+		return nil
+	}
+
+	return entries
+}
+
+func InsertEntry(entry entities.BlogEntry) entities.BlogEntry {
+	entryCollection := client.Database("travelBlog").Collection("entries")
+
+	entryCollection.InsertOne(context.Background(), entry)
+
+	return entry
 }

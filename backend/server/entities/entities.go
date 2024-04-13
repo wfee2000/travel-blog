@@ -12,8 +12,8 @@ type BlogUser struct {
 }
 
 type BlogComment struct {
-	CommenterId primitive.ObjectID `json:"commenter_id"`
-	Content     string             `json:"content"`
+	CommenterUn string `json:"commenter_un"`
+	Content     string `json:"content"`
 }
 
 type Content struct {
@@ -30,6 +30,6 @@ type BlogEntry struct {
 	Contents        []Content            `json:"contents"`
 	CommentsAllowed bool                 `json:"commentsAllowed"`
 	BlogCategory    string               `json:"blogCategory"`
-	AuthorId        primitive.ObjectID   `json:"author_id"`
+	AuthorUN        string               `json:"author_un"`
 	Comments        []BlogComment        `json:"comments"`
 }

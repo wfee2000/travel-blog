@@ -11,3 +11,33 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3333/api/getAllUsers
+
+###
+
+GET http://localhost:3333/api/getAllEntries
+
+###
+
+POST http://localhost:3333/api/createEntry
+Content-Type: application/json
+
+{
+    "title": "Luka sein super toller Titel",
+    "description": "Bruder maya, Dienstag ist SYP Test.",
+    "creationDate": "2024-02-04T00:00:00Z",
+    "editDates": [
+      "2024-05-02T00:00:00Z",
+      "2024-01-30T00:00:00Z"
+    ],
+    "impressionCount": 10000,
+    "contents": [
+      {
+        "type": "text",
+        "content": "Brrrrruder test bei Stütz aber garnicht geschaft jaaa."
+      }
+    ],
+    "commentsAllowed": false,
+    "blogCategory": "School",
+    "author_un": "luka_civic",
+    "comments": []
+  }
