@@ -1,8 +1,5 @@
 "use client"
 
-import uploadEntry from "@/app/create-entry/Buttton";
-import {useState} from "react";
-import FileButton from "@/app/create-entry/child/FileButton";
 
 export default function ParentDiv()  {
     return (
