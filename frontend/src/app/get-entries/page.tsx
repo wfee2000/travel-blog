@@ -13,8 +13,13 @@ export default async function Home() {
       <div id="container"
            className="h-screen overflow-y-auto w-screen bg-gray-50 dark:bg-gray-900 inline-flex flex-wrap">
         <ShowEntries data={entries}/>
+      </div>
+  );
+}
 
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+/*
+
+<div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <img className="rounded-t-lg" src="https://www.thespruce.com/thmb/fQjL1wNf72Ez89dkS-VwpiQGiAM=/6127x0/filters:no_upscale():max_bytes(150000):strip_icc()/thespruce.com-best-houseplants-for-sun-4147670-1-3d69cd3cf2b943d9aa8363cde764e595.jpg" alt=""/>
           <div className="p-5">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -35,6 +40,5 @@ export default async function Home() {
             </a>
           </div>
         </div>
-      </div>
-  );
-}
+
+*/

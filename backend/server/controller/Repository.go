@@ -96,3 +96,15 @@ func InsertEntry(entry entities.BlogEntry) entities.BlogEntry {
 
 	return entry
 }
+
+func UpdateViewCount(entry entities.BlogEntry) entities.BlogEntry {
+	entryCollection := client.Database("travelBlog").Collection("entries")
+
+	filter := bson.M{"title": entry.Title}
+
+	update := bson.M{"$set": bson.M{"impressionCount": entry.ImpressionCount}}
+
+	entryCollection.UpdateOne(context.Background(), filter, update)
+
+	return entry
+}

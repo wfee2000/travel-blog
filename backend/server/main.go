@@ -33,6 +33,8 @@ func main() {
 	router.GET("/api/getAllEntries", getEntries)
 	router.POST("/api/createEntry", postEntry)
 
+	router.POST("/api/updateViewCount", updateViewCount)
+
 	errServer := router.Run(":3333")
 
 	if errors.Is(errServer, http.ErrServerClosed) {
@@ -88,4 +90,18 @@ func getEntries(context *gin.Context) {
 	entries := controller.GetAllEntries()
 
 	context.IndentedJSON(http.StatusCreated, entries)
+}
+
+func updateViewCount(context *gin.Context) {
+	controller.InitDbConnection()
+
+	var entry entities.BlogEntry
+	err := context.BindJSON(&entry)
+
+	if err != nil {
+		context.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	context.IndentedJSON(http.StatusCreated, controller.UpdateViewCount(entry))
 }

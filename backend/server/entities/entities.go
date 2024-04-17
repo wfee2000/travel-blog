@@ -24,7 +24,7 @@ type Content struct {
 type BlogEntry struct {
 	Title           string               `json:"title"`
 	Description     string               `json:"description"`
-	CreationDate    primitive.DateTime   `json:"creationDate"` // kann vllt string sein
+	CreationDate    primitive.DateTime   `json:"creationDate"`
 	EditDates       []primitive.DateTime `json:"editDates"`
 	ImpressionCount int                  `json:"impressionCount"`
 	Contents        []Content            `json:"contents"`

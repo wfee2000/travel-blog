@@ -7,43 +7,104 @@ import entry from "next/dist/server/typescript/rules/entry";
 export default function ShowEntries({data}) {
 
     useEffect( () => {
-        console.log(data.length);
 
         if(!data) return;
 
         let container: HTMLElement = document.getElementById("container") as HTMLDivElement;
 
         for (let entry of data){
-            console.log(entry.title)
 
-            /*
-            let myImageTag = document.createElement("img");
+            let mainDiv = document.createElement("div");
+            mainDiv.className = "max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700";
 
-            //myImageTag.innerHTML = "<img style='display:block; width:100px;height:100px;'/>";
+            let author = document.createElement("p");
+            author.className = "mb-3 font-normal text-gray-700 dark:text-gray-400";
+            author.textContent = entry.author_un + " | " + entry.creationDate;
 
-            myImageTag.style.display = "block";
-            myImageTag.src = entry.contents[3].content;
+            let title = document.createElement("h5");
+            title.className = "mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white";
+            title.innerHTML = entry.title;
 
-            container.appendChild(myImageTag);
+            let description = document.createElement("p");
+            description.className = "mb-3 font-normal text-gray-700 dark:text-gray-400";
+            description.innerHTML = entry.description;
 
-            let width: number = myImageTag.width;
-            let height: number = myImageTag.height;
+            mainDiv.appendChild(author);
+            mainDiv.appendChild(title);
+            mainDiv.appendChild(description);
 
-            if(width > 300 || height > 300 ){
-                let aspectRatio = width / height;
+            for (let contents of entry.contents) {
 
-                if (width > height) {
-                    width = 300;
-                    height = 300 / aspectRatio;
-                } else {
-                    height = 300;
-                    width = 300 * aspectRatio;
+                if(contents.type === "link"){
+                    let link = document.createElement("a");
+                    link.className = "mb-3 font-normal text-sky-400 dark:text-sky-400";
+                    link.innerHTML = "Link: " + contents.content;
+                    link.href = contents.content;
+
+                    mainDiv.appendChild(link);
+                }
+                else if (contents.type === "image"){
+                    let myImageTag = document.createElement("img");
+
+                    myImageTag.style.display = "block";
+                    myImageTag.src = contents.content;
+                    myImageTag.className = "rounded-t-lg";
+
+                    mainDiv.appendChild(myImageTag);
+
+                    let width: number = myImageTag.width;
+                    let height: number = myImageTag.height;
+
+                    if(width > 300 || height > 300 ){
+                        let aspectRatio = width / height;
+
+                        if (width > height) {
+                            width = 300;
+                            height = 300 / aspectRatio;
+                        } else {
+                            height = 300;
+                            width = 300 * aspectRatio;
+                        }
+                    }
+
+                    myImageTag.style.width = width + "px";
+                    myImageTag.style.height = height + "px";
+                }
+                else if (contents.type === "coordinates"){
+                    let coordinates = document.createElement("p");
+                    coordinates.className = "mb-3 font-normal text-yellow-400 dark:text-yellow-400";
+                    coordinates.innerHTML = "coordinates: " + contents.content;
+
+                    mainDiv.appendChild(coordinates);
+                }
+                else if (contents.type === "text"){
+                    let text = document.createElement("p");
+                    text.className = "mb-3 font-normal text-gray-700 dark:text-gray-400";
+                    text.innerHTML = contents.content;
+
+                    mainDiv.appendChild(text);
                 }
             }
 
-            myImageTag.style.width = width + "px";
-            myImageTag.style.height = height + "px";
-            * */
+            entry.impressionCount += 1;
+
+            let viewCount = document.createElement("p");
+            viewCount.className = "mb-3 font-normal text-gray-700 dark:text-gray-400";
+            viewCount.innerHTML = "Views: " + entry.impressionCount + " | Category:" + entry.blogCategory;
+
+            mainDiv.appendChild(viewCount);
+
+            container.appendChild(mainDiv);
+
+            // post um view count zu erhöhen
+            fetch('http://localhost:3333/api/updateViewCount', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(entry)
+            });
         }
 
     }, []);
@@ -51,8 +112,7 @@ export default function ShowEntries({data}) {
 
 /*
 
-<div
-            className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+<div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <a href="#">
             <img className="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt=""/>
           </a>
